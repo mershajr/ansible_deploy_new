@@ -27,6 +27,13 @@
         url : "{{URL}}"
         dest : "{{TOMCAT_DIR}}/apache-tomcat-9.0.19/webapps/student.war"
 
+    - name : check the running status of tomcat
+      tags :
+        - always
+      shell : ps -ef | grep tomcat | grep -v grep
+      register : output
+      ignore_errors : True
+
     - name : restart tomcat
       tags :
         - always
@@ -34,3 +41,11 @@
       args :
         chdir : "{{TOMCAT_DIR}}/apache-tomcat-9.0.19/bin"
       when : output.rc == 0
+
+    - name : start the app-server
+      tags :
+        - always
+      shell : nohup sh startup.sh
+      args :
+        chdir : "{{TOMCAT_DIR}}/apache-tomcat-9.0.19/bin"
+      when : output.rc != 0
