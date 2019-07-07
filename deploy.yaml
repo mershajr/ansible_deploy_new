@@ -22,7 +22,7 @@
         "{{findout.files}}"
 
     - name : download latest artifact
-      become_user : tomcat
+      #become_user : tomcat
       get_url :
         url : "{{URL}}"
         dest : "{{TOMCAT_DIR}}/apache-tomcat-9.0.19/webapps/student.war"
